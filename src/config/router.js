@@ -7,8 +7,10 @@ import {
 } from "react-router-dom";
 
 import Login from "../components/login/index";
-import Protected from "../components/home/index";
+import Home from "../components/home/index";
 import Splash from "../components/splash/index";
+import Dashboard from "../components/dashboard/index";
+import Orders from "../components/orders/index";
 
 import { bindActionCreators } from "redux";
 import * as authActions from "../actions/authenticate";
@@ -17,8 +19,9 @@ import { connect } from "react-redux";
 const RouteHandler = (props) => (
   <Router>
     <Switch>
-      {(props.state.requestingRestore || props.state.requestingAuth) && (<Splash {...props} />)}
-      <PrivateRoute exact path="/" component={Protected} state={props.state} />
+      {(props.state.requestingRestore || props.state.requestingAuth) && (<Splash />)}
+      <PrivateRoute exact path="/" component={Dashboard} state={props.state} />
+      <PrivateRoute path="/orders" component={Orders} state={props.state} />
       <Route path="/login" component={Login} />
     </Switch>
   </Router>
@@ -29,7 +32,9 @@ const PrivateRoute = ({ component: Component, ...rest, state }) => (
     {...rest}
     render={props =>
       state.isAuth ? (
-        <Component {...props} />
+        <Home>
+         <Component />
+        </Home>
       ) : (
         <Redirect
           to={{

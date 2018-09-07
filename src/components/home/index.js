@@ -6,19 +6,16 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./item-list";
-import SimpleLineChart from "./simple-line-chart";
-import SimpleTable from "./simple-table";
-import { Redirect, withRouter } from "react-router-dom";
+import Navigator from "./navigator";
+
+import { withRouter } from "react-router-dom";
 
 import { bindActionCreators } from "redux";
 import * as authActions from "../../actions/authenticate";
@@ -102,7 +99,7 @@ const styles = theme => ({
 
 class Home extends React.Component {
   state = {
-    redirectToReferrer: false,
+    // redirectToReferrer: false,
     open: true
   };
 
@@ -119,15 +116,12 @@ class Home extends React.Component {
     this.setState({ open: false });
   };
 
+  navigate = path => {
+    this.props.history.push(path);
+  };
+
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
-    const { redirectToReferrer } = this.state;
     const { classes } = this.props;
-
-    if (redirectToReferrer) {
-      return <Redirect to={from} />;
-    }
-
     return (
       <React.Fragment>
         <CssBaseline />
@@ -191,26 +185,11 @@ class Home extends React.Component {
                 <ChevronLeftIcon />
               </IconButton>
             </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
+
+            <Navigator navigate={this.navigate} />
           </Drawer>
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            <Typography variant="display1" gutterBottom>
-              Orders
-            </Typography>
-            <Typography component="div" className={classes.chartContainer}>
-              <SimpleLineChart />
-            </Typography>
-            <Typography variant="display1" gutterBottom>
-              Products
-            </Typography>
-            <div className={classes.tableContainer}>
-              <SimpleTable />
-            </div>
-          </main>
+
+          {this.props.children}
         </div>
       </React.Fragment>
     );

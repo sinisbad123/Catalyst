@@ -46,7 +46,7 @@ export function restoreSession(callback) {
       } else {
         dispatch(restoreFailed());
       }
-    }, 5000);
+    }, 1000);
   };
 } // restoreSession
 
