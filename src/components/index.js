@@ -2,7 +2,7 @@ import React from "react";
 import RouteHandler from "../config/router";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import PrimaryColor from "@material-ui/core/colors/blue";
+import PrimaryColor from "@material-ui/core/colors/deepPurple";
 import SecondaryColor from "@material-ui/core/colors/pink";
 import createPalette from "@material-ui/core/styles/createPalette";
 
